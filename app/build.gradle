@@ -25,5 +25,14 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
+// https://mvnrepository.com/artifact/org.bouncycastle/bcpg-jdk15on
+    //compile group: 'org.bouncycastle', name: 'bcpg-jdk15on', version: '1.58'
+    // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-ext-jdk15on
+
+// https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on
+   // compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.58'
+// https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on
+    compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.58'
+
     testCompile 'junit:junit:4.12'
 }

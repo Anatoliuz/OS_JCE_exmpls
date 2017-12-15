@@ -3,15 +3,6 @@
 
     <item
         is-multidex="true"
-        jar="/Users/fix/Code/JCEApplication/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.3.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
-        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.3.1_4bca70245b377d538e74185ab508e7be7f7bccd8/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/fix/Code/JCEApplication/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.3.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
@@ -21,39 +12,12 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/fix/Code/JCEApplication/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.3.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
-        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.3.1_530168ebd57f4f9d66fa93a3d0fd2d136667cc9e/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/fix/Code/JCEApplication/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="f81b0e5ff1d351e67aff03c4e3f5f4288e9b713b">
+        sha1="e6a3069aae127fdc907448367d95e18ac2fb5450">
         <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_1046fd7a772911a111d44cdfe3fbacdef15e241f/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/fix/Code/JCEApplication/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="0c1af722a98be0a91c97db44f58dff6970a92324">
-        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_ff81f8bfad8ecf702d8b3cb27a890061f12774da/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/fix/Code/JCEApplication/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.3.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
-        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.3.1_117bf94132bd44eff02aa1e6f48431492257e42a/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -63,15 +27,6 @@
         revision="25.0.2"
         sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
         <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.3.1_ecf59a5c4bc2b07928554eec35cf90477a32afc2/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/fix/Code/JCEApplication/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.3.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
-        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.3.1_6d542a48e8aefa9add8395e43f39a5842b405108/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -93,21 +48,84 @@
     </item>
     <item
         is-multidex="true"
-        jar="/Users/fix/Code/JCEApplication/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.3.1/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.3.1_3729cf3737f9ed0d55d46749d0dd829463b60b69/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="/Users/fix/Code/JCEApplication/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.3.1/jars/classes.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
         <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.3.1_7c5af929f2b3a313a9870e85c7ec3db7604ece06/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/fix/Code/JCEApplication/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.3.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.3.1_4bca70245b377d538e74185ab508e7be7f7bccd8/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/fix/Code/JCEApplication/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.3.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.3.1_530168ebd57f4f9d66fa93a3d0fd2d136667cc9e/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/fix/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcpkix-jdk15on/1.58/15a760a039b040e767a75c77ffcc4ff62558f903/bcpkix-jdk15on-1.58.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="15a760a039b040e767a75c77ffcc4ff62558f903">
+        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/bcpkix-jdk15on-1.58_58fbc021818f76188578f598bd2e5ac2ff14e068/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/fix/Code/JCEApplication/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2d167fdad0f82c4b1c87f83dcf06f8c61dfeba4b">
+        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_ff81f8bfad8ecf702d8b3cb27a890061f12774da/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/fix/Code/JCEApplication/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.3.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.3.1_117bf94132bd44eff02aa1e6f48431492257e42a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/fix/.gradle/caches/modules-2/files-2.1/org.bouncycastle/bcprov-jdk15on/1.58/2c9aa1c4e3372b447ba5daabade4adf2a2264b12/bcprov-jdk15on-1.58.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="2c9aa1c4e3372b447ba5daabade4adf2a2264b12">
+        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/bcprov-jdk15on-1.58_24b64dae9331563d7f2aadb00af056194192dd43/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/fix/Code/JCEApplication/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.3.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.3.1_6d542a48e8aefa9add8395e43f39a5842b405108/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/fix/Code/JCEApplication/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.3.1/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/fix/Code/JCEApplication/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.3.1_3729cf3737f9ed0d55d46749d0dd829463b60b69/classes.dex" />
     </item>
 
 </items>

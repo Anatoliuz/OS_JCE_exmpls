@@ -5,5 +5,9 @@
         <item>MAC</item>
         <item>DigitalSignature</item>
         <item>DigitalSignatureValidate</item>
+        <item>GOST_hashing</item>
+        <item>RSA_encrypt</item>
+        <item>RSA_decrypt</item>
+
     </string-array>
 </resources>

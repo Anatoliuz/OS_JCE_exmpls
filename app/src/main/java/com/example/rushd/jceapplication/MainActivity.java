@@ -6,23 +6,30 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+import org.bouncycastle.crypto.digests.GOST3411Digest;
+import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.security.*;
 import javax.crypto.*;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.util.encoders.Hex;
+
+import static com.example.rushd.jceapplication.rsa.*;
 
 public class MainActivity extends AppCompatActivity  implements AdapterView.OnItemSelectedListener {
     private static final String TAG = "MyActivity";
     private String entry = "MD5";
 
     private Map<String, Object> signData = null;
-
+    AsymmetricKeyParameter privateKey;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
         Spinner spinner = (Spinner) findViewById(R.id.planets_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -36,18 +43,13 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
 
         final Button button = (Button) findViewById(R.id.calculate);
 
-
         button.setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
                 try {
-
-
                     String editbox = myEditField.getText().toString();
                     String answer = "";
-                    editbox = "$" + editbox;
+
                     Log.i("", editbox);
-
-
                     if (entry.equals("MD5")) {
                         String prehash = get_MD5(editbox);
 
@@ -73,28 +75,51 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
                         CharSequence text = "";
                         if(isVal) {
                             text = "Signature is VALID!";
-                            }
-                        else{
+                        } else{
                             text = "Signature is NOT valid!";
                         }
                         int duration = Toast.LENGTH_LONG;
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
                         Log.v(TAG, b.toString());
+                    }else if(entry.equals("GOST_hashing")){
+                        Security.addProvider(new BouncyCastleProvider());
+
+                        byte[] trial = myEditField.getText().toString().getBytes();
+
+                        GOST3411Digest examplesha = new GOST3411Digest(); //256-bits
+                        examplesha.update(trial, 0, trial.length);
+
+                        byte[] digested = new byte[examplesha.getDigestSize()];
+                        examplesha.doFinal(digested, 0);
+
+                        answerfield.setText( new String(Hex.encode(digested)));
+                    }else if(entry.equals("RSA_encrypt")){
+                        AsymmetricCipherKeyPair keyPair = GenerateKeys();
+
+                        String plainMessage = myEditField.getText().toString();
+
+                        GetTimestamp("Encryption started: ");
+                        String encryptedMessage = Encrypt(plainMessage.getBytes("UTF-8"), keyPair.getPublic());
+                        privateKey = keyPair.getPrivate();
+                        answerfield.setText(encryptedMessage);
+                        GetTimestamp("Encryption ended: ");
+
+                        GetTimestamp("Decryption started: ");
+
+                    }else if(entry.equals("RSA_decrypt")){
+                        String encryptedMessage = myEditField.getText().toString();
+                        String decryptedMessage = Decrypt(encryptedMessage, privateKey);
+                        answerfield.setText(decryptedMessage);
                     }
 
                 } catch (Exception e) {
-                    Log.e("", "Failed to Calculate Tip:" + e.getMessage());
+                   // Log.e("", "Failed to Calculate Tip:" + e.getMessage());
                     e.printStackTrace();
                     answerfield.setText(e.getMessage());
                 }
             }
         });
-
-
-        //
-
-
     }
 
     public void onItemSelected(AdapterView<?> parent, View view,
@@ -114,16 +139,11 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
 
         try {
             final byte[] prehashBytes = prehash.getBytes("iso-8859-1");
-
             System.out.println(prehash.length());
             System.out.println(prehashBytes.length);
-
             final MessageDigest digester = MessageDigest.getInstance("MD5");
-
             digester.update(prehashBytes);
-
             final byte[] digest = digester.digest();
-
 
             for (final byte b : digest) {
                 final int intByte = 0xFF & b;
@@ -148,7 +168,6 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
     private String getMAC(String str) {
         //
         Mac mac = null;
-        String MAC = null;
         try {
             byte[] plainText = str.getBytes("iso-8859-1");
 
@@ -159,15 +178,13 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
             final KeyGenerator keyGen = KeyGenerator.getInstance("HmacMD5");
             final SecretKey MD5key = keyGen.generateKey();
             mac = Mac.getInstance("HmacMD5");
-            // get a MAC object and update it with the plaintext
+
             mac.init(MD5key);
             mac.update(plainText);
             //
-            // print out the provider used and the MAC
             Log.v(TAG, "\n" + mac.getProvider().getInfo());
             Log.v(TAG, "\nMAC: ");
             bytesToHex(mac.doFinal());
-            MAC = new String(mac.doFinal(), "iso-8859-1");
             Log.v(TAG, bytesToHex(mac.doFinal()));
         } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
@@ -194,34 +211,23 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
     public static Map<String, Object> getEncryptedMD5(String dataToSign) {
         try {
             byte[] plainText = dataToSign.getBytes("UTF8");
-            //
-            // get an MD5 message digest object and compute the plaintext digest
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
             Log.v(TAG, "\n" + messageDigest.getProvider().getInfo());
             messageDigest.update(plainText);
             byte[] md = messageDigest.digest();
             Log.v(TAG, "\nDigest: ");
-            //Log.v(TAG,new String(md, "UTF8"));
             Log.v(TAG, bytesToHex(md));
-            //
-            // generate an RSA keypair
             Log.v(TAG, "\nStart generating RSA key");
             KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
             keyGen.initialize(1024);
             KeyPair key = keyGen.generateKeyPair();
             Log.v(TAG, "Finish generating RSA key");
-            //
-            // get an RSA cipher and list the provider
             Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
             Log.v(TAG, "\n" + cipher.getProvider().getInfo());
-            //
-            // encrypt the message digest with the RSA private key
-            // to create the signature
             Log.v(TAG, "\nStart encryption");
             cipher.init(Cipher.ENCRYPT_MODE, key.getPrivate());
             byte[] cipherText = cipher.doFinal(md);
             Log.v(TAG, "Finish encryption: ");
-            //Log.v(TAG,new String(cipherText, "UTF8"));
             Log.v(TAG, bytesToHex(cipherText));
 
             Map<String, Object> params = new HashMap<String, Object>();
@@ -229,26 +235,13 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
             params.put("publicKey", key.getPublic());
             return params;
 
-        } catch (UnsupportedEncodingException ex) {
-
-        } catch (IllegalBlockSizeException ex) {
-
-        } catch (NoSuchAlgorithmException ex) {
-
-        } catch (NoSuchPaddingException ex) {
-
-        } catch (BadPaddingException ex) {
-
-        } catch (InvalidKeyException ex) {
+        } catch (Exception ex) {
 
         }
         return null;
     }
 
     private static boolean isSignatureValid(byte[] cipherText, String plainIn, PublicKey key) {
-        //
-        // to verify, start by decrypting the signature with the
-        // RSA private key
         try {
             Log.v(TAG,"IS VALID CIPHER TEXT " + bytesToHex(cipherText));
             Log.v(TAG,"IS VALID PLAIN TEXT " + plainIn);
@@ -262,43 +255,26 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
 
             byte[] newMD = cipher.doFinal(cipherText);
             Log.v(TAG, "Finish decryption: ");
-            // Log.v(TAG, new String(newMD, "UTF8"));
             Log.v(TAG, bytesToHex(newMD));
-            //
-            // then, recreate the message digest from the plaintext
-            // to simulate what a recipient must do
             Log.v(TAG, "\nStart signature verification");
             messageDigest.reset();
             messageDigest.update(plainText);
             byte[] oldMD = messageDigest.digest();
-            //
-            // verify that the two message digests match
+
             int len = newMD.length;
             if (len > oldMD.length) {
                 Log.v(TAG, "Signature failed, length error");
-                //  System.exit(1);
                 return false;
             }
             for (int i = 0; i < len; ++i)
                 if (oldMD[i] != newMD[i]) {
                     Log.v(TAG, "Signature failed, element error");
-                    //  System.exit(1);
                     return false;
                 }
 
             Log.v(TAG, "Signature verified");
             return true;
-        } catch (IllegalBlockSizeException ex) {
-
-        } catch (NoSuchAlgorithmException ex) {
-
-        } catch (NoSuchPaddingException ex) {
-
-        } catch (BadPaddingException ex) {
-
-        } catch (InvalidKeyException ex) {
-
-        }catch (UnsupportedEncodingException ex){
+        } catch (Exception ex){
 
         }
         return false;
