@@ -1,5 +1,6 @@
 package com.example.rushd.jceapplication;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,7 +10,6 @@ import android.widget.*;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 import javax.crypto.*;
-import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,16 +25,13 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
 
         setContentView(R.layout.activity_main);
         Spinner spinner = (Spinner) findViewById(R.id.planets_spinner);
-// Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.planets_array, android.R.layout.simple_spinner_item);
-// Specify the layout to use when the list of choices appears
+                R.array.options_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-// Apply the adapter to the spinner
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        final EditText myEditField = (EditText) findViewById(R.id.mealprice);
+        final EditText myEditField = (EditText) findViewById(R.id.editbox);
         final EditText answerfield = (EditText) findViewById(R.id.answer);
 
         final Button button = (Button) findViewById(R.id.calculate);
@@ -45,19 +42,19 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
                 try {
 
 
-                    String mealprice = myEditField.getText().toString();
+                    String editbox = myEditField.getText().toString();
                     String answer = "";
-                    mealprice = "$" + mealprice;
-                    Log.i("", mealprice);
+                    editbox = "$" + editbox;
+                    Log.i("", editbox);
 
 
                     if (entry.equals("MD5")) {
-                        String prehash = get_MD5(mealprice);
+                        String prehash = get_MD5(editbox);
 
                         Log.v(TAG, prehash);
                         answerfield.setText(prehash);
                     } else if (entry.equals("MAC")) {
-                        String MAC = getMAC(mealprice);
+                        String MAC = getMAC(editbox);
                         Log.v(TAG, MAC);
 
                         answerfield.setText(getMAC("MAC"));
@@ -72,6 +69,17 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
                         String str = myEditField.getText().toString();
                         boolean isVal = isSignatureValid((byte[]) signData.get("cipherText"), str, key);
                         Boolean b = new Boolean(isVal);
+                        Context context = getApplicationContext();
+                        CharSequence text = "";
+                        if(isVal) {
+                            text = "Signature is VALID!";
+                            }
+                        else{
+                            text = "Signature is NOT valid!";
+                        }
+                        int duration = Toast.LENGTH_LONG;
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
                         Log.v(TAG, b.toString());
                     }
 
@@ -92,7 +100,6 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
     public void onItemSelected(AdapterView<?> parent, View view,
                                int pos, long id) {
         // An item was selected. You can retrieve the selected item using
-        System.out.print("AAAAAAA");
         entry = parent.getItemAtPosition(pos).toString();
         Log.v(TAG, "index=" + parent.getItemAtPosition(pos));
 
@@ -278,6 +285,7 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
                     //  System.exit(1);
                     return false;
                 }
+
             Log.v(TAG, "Signature verified");
             return true;
         } catch (IllegalBlockSizeException ex) {

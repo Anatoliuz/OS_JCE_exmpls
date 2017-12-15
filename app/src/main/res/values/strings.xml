@@ -1,13 +1,9 @@
 <resources>
     <string name="app_name">JCEApplication</string>
-    <string-array name="planets_array">
+    <string-array name="options_array">
         <item>MD5</item>
         <item>MAC</item>
         <item>DigitalSignature</item>
         <item>DigitalSignatureValidate</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
     </string-array>
 </resources>
