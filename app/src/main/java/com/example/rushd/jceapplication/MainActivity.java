@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
 
         final Button button = (Button) findViewById(R.id.calculate);
 
-
+        DigitalSignature("AAA");
 
 
         button.setOnClickListener(new Button.OnClickListener() {
@@ -166,5 +166,79 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
             hexChars[j * 2 + 1] = hexArray[v & 0x0F];
         }
         return new String(hexChars);
+    }
+
+    public static void DigitalSignature(String data){
+        try {
+            byte[] plainText = data.getBytes("UTF8");
+            //
+            // get an MD5 message digest object and compute the plaintext digest
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            Log.v(TAG,"\n" + messageDigest.getProvider().getInfo());
+            messageDigest.update(plainText);
+            byte[] md = messageDigest.digest();
+            Log.v(TAG,"\nDigest: ");
+            Log.v(TAG,new String(md, "UTF8"));
+            //
+            // generate an RSA keypair
+            Log.v(TAG,"\nStart generating RSA key");
+            KeyPairGenerator keyGen = KeyPairGenerator.getInstance("RSA");
+            keyGen.initialize(1024);
+            KeyPair key = keyGen.generateKeyPair();
+            Log.v(TAG,"Finish generating RSA key");
+            //
+            // get an RSA cipher and list the provider
+            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            Log.v(TAG,"\n" + cipher.getProvider().getInfo());
+            //
+            // encrypt the message digest with the RSA private key
+            // to create the signature
+            Log.v(TAG,"\nStart encryption");
+            cipher.init(Cipher.ENCRYPT_MODE, key.getPrivate());
+            byte[] cipherText = cipher.doFinal(md);
+            Log.v(TAG,"Finish encryption: ");
+            Log.v(TAG,new String(cipherText, "UTF8"));
+            //
+            // to verify, start by decrypting the signature with the
+            // RSA private key
+            System.out.println("\nStart decryption");
+            cipher.init(Cipher.DECRYPT_MODE, key.getPublic());
+
+            byte[] newMD = cipher.doFinal(cipherText);
+            Log.v(TAG,"Finish decryption: ");
+            Log.v(TAG, new String(newMD, "UTF8"));
+            //
+            // then, recreate the message digest from the plaintext
+            // to simulate what a recipient must do
+            Log.v(TAG,"\nStart signature verification");
+            messageDigest.reset();
+            messageDigest.update(plainText);
+            byte[] oldMD = messageDigest.digest();
+            //
+            // verify that the two message digests match
+            int len = newMD.length;
+            if (len > oldMD.length) {
+                Log.v(TAG,"Signature failed, length error");
+                System.exit(1);
+            }
+            for (int i = 0; i < len; ++i)
+                if (oldMD[i] != newMD[i]) {
+                    Log.v(TAG,"Signature failed, element error");
+                    System.exit(1);
+                }
+            Log.v(TAG,"Signature verified");
+        }catch(UnsupportedEncodingException ex){
+
+        }catch(IllegalBlockSizeException ex){
+
+        }catch(NoSuchAlgorithmException ex){
+
+        }catch(NoSuchPaddingException ex){
+
+        }catch(BadPaddingException ex){
+
+        }catch(InvalidKeyException ex){
+
+        }
     }
 }
