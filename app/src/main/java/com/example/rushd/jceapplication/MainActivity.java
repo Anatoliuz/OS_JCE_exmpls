@@ -171,7 +171,6 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
             final KeyGenerator keyGen = KeyGenerator.getInstance("HmacMD5");
             final SecretKey MD5key = keyGen.generateKey();
             mac = Mac.getInstance("HmacMD5");
-
             mac.init(MD5key);
             mac.update(plainText);
             bytesToHex(mac.doFinal());
