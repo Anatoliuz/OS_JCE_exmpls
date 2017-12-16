@@ -139,8 +139,6 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
 
         try {
             final byte[] prehashBytes = prehash.getBytes("iso-8859-1");
-            System.out.println(prehash.length());
-            System.out.println(prehashBytes.length);
             final MessageDigest digester = MessageDigest.getInstance("MD5");
             digester.update(prehashBytes);
             final byte[] digest = digester.digest();
@@ -170,22 +168,13 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
         Mac mac = null;
         try {
             byte[] plainText = str.getBytes("iso-8859-1");
-
-            System.out.println("\nStart generating key");
-
-            System.out.println("Finish generating key");
-            //
             final KeyGenerator keyGen = KeyGenerator.getInstance("HmacMD5");
             final SecretKey MD5key = keyGen.generateKey();
             mac = Mac.getInstance("HmacMD5");
 
             mac.init(MD5key);
             mac.update(plainText);
-            //
-            Log.v(TAG, "\n" + mac.getProvider().getInfo());
-            Log.v(TAG, "\nMAC: ");
             bytesToHex(mac.doFinal());
-            Log.v(TAG, bytesToHex(mac.doFinal()));
         } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
         } catch (UnsupportedEncodingException ex) {
@@ -249,8 +238,6 @@ public class MainActivity extends AppCompatActivity  implements AdapterView.OnIt
 
             Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-
-            System.out.println("\nStart decryption");
             cipher.init(Cipher.DECRYPT_MODE, key);
 
             byte[] newMD = cipher.doFinal(cipherText);
